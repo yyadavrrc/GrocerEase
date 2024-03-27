@@ -1,2 +1,22 @@
-<h1>Products#index</h1>
-<p>Find me in app/views/products/index.html.erb</p>
+<!-- app/views/products/index.html.erb -->
+<div class="container">
+  <h1 class="mt-5">All Products</h1>
+  <ul class="list-group mt-3">
+    <% @product.each do |product| %>
+      <li class="list-group-item">
+        <span class="fw-bold"><a href='/Products/show?id=<%=  product.id %>'><%= product.name %></a>:</span> <%= product.price %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<nav aria-label="Page navigation example" class="Page">
+  <ul class="pagination justify-content-center">
+    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+    <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+    <li class="page-item"><a class="page-link" href="?page=4">4</a></li>
+    <li class="page-item"><a class="page-link" href="?page=5">5</a></li>
+    <li class="page-item"><a class="page-link" href="?page=6">6</a></li>
+    <li class="page-item"><a class="page-link" href="?page=7">7</a></li>
+  </ul>
+</nav>
