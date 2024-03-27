@@ -2,7 +2,23 @@ source "https://rubygems.org"
 
 ruby "3.1.2"
 
+gem 'sassc-rails'
+
 gem 'faker'
+
+gem 'bcrypt', '~> 3.1.7'
+gem 'bootstrap-rubygem'
+gem 'kaminari'
+
+gem 'activeadmin'
+
+# Plus integrations with:
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+gem 'sassc'
+
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
@@ -12,14 +28,6 @@ gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
-
-source 'https://rubygems.org' do
-  gem 'sass-embedded', source: 'https://rubygems.org'
-end
-
-
-
-gem 'dartsass-sprockets', '>= 3.1.0'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
@@ -37,6 +45,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem 'bootstrap'
+
 
 
 # Use Redis adapter to run Action Cable in production

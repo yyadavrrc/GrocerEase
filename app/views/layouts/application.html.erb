@@ -2,34 +2,75 @@
 <html>
 <head>
   <title>Your Application</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'https://code.jquery.com/jquery-3.5.1.slim.min.js' %>
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js' %>
+  <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' %>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    button {
+      color: white !important;
+    }
+    .jumbotron {
+      background-color: #343a40;
+      color: #fff;
+      padding: 80px 20px;
+      margin-bottom: 0;
+    }
+    .jumbotron h1 {
+      font-size: 48px;
+    }
+    .card {
+      background-color: #f8f9fa;
+      border: none;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    footer {
+      position: absolute;
+      bottom: 0;
+      width:100%;
+    }
+    .container{
+      margin-top:100px;
+    }
 
-  <!-- Include Bootstrap CSS -->
-  <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css' %>
+  </style>
 </head>
-
-
 <body>
-<!-- As a link -->
-<nav class="navbar bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav mr-auto">
+      <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/Products/index">Products</a>
+      <a class="nav-item nav-link" href="/Categories/index">Categories</a>
+      <a class="nav-item nav-link" href="/admin">Admin</a>
+    </div>
+    <form class="form-inline my-2 my-lg-0" action='/Search/result' method='get'>
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='search'>
+      <select class="custom-select mr-sm-2" name='category'>
+        <option selected value='all'>All Categories</option>
+        <% Category.all.each do |category| %>
+          <option value="<%= category.id %>"><%= category.name %></option>
+        <% end %>
+      </select>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
   </div>
 </nav>
 
-<!-- As a heading -->
-<nav class="navbar bg-body-tertiary">
-  <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1">Navbar</span>
-  </div>
-</nav>
   <%= yield %>
-
-  <!-- Include Bootstrap JS (optional) -->
-  <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js' %>
 </body>
 </html>
