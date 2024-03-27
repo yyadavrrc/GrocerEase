@@ -1,0 +1,25 @@
+<div class="container">
+<h1 class="text-center mt-4 mb-4">Shopping Cart</h1>
+<% if session[:cart].present? %>
+<ul class="list-group">
+<% session[:cart].each do |product_id, quantity| %>
+<li class="list-group-item">
+<% product = Product.find(product_id) %>
+<h5 class="mb-1"><strong>Product Name:</strong> <%= product.name %></h5>
+<p class="mb-1"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+<%= form_tag update_cart_path(product_id), method: :patch, class: "form-inline" do %>
+<%= hidden_field_tag :product_id, product_id %>
+<label for="quantity_<%= product_id %>" class="mr-2"><strong>Quantity:</strong></label>
+<%= number_field_tag "quantity[#{product_id}]", quantity, class: "form-control mr-2", id: "quantity_#{product_id}" %>
+<%= submit_tag "Update", class: "btn btn-primary btn-sm mr-2" %>
+<% end %>
+<%= button_to "Remove from Cart", remove_from_cart_path(product_id), method: :delete, class: "btn btn-danger btn-sm mt-2" %>
+</li>
+<% end %>
+</ul>
+<% else %>
+<div class="alert alert-info" role="alert">
+      Your shopping cart is empty.
+</div>
+<% end %>
+</div>

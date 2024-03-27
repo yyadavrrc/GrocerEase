@@ -5,6 +5,7 @@
     <% @product.each do |product| %>
       <li class="list-group-item">
         <span class="fw-bold"><a href='/Products/show?id=<%=  product.id %>'><%= product.name %></a>:</span> <%= product.price %>
+        <%= button_to "Add to Cart", add_to_cart_path(product_id: product.id), method: :post, remote: true, class: "btn btn-primary", form_class: "form-inline", params: { redirect_path: view_cart_path } %>
       </li>
     <% end %>
   </ul>
