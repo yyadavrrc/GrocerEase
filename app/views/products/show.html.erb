@@ -8,7 +8,8 @@
           <p class="card-text"><strong>Description:</strong> <%= @product.description %></p>
           <p class="card-text"><strong>Price:</strong> <%= number_to_currency(@product.price) %></p>
           <!-- Add more product details as needed -->
-          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <%= button_to "Add to Cart", add_to_cart_path(product_id: @product.id), method: :post, remote: true, class: "btn btn-primary", data: { product_id: @product.id } %>
+          <!-- Use JavaScript to handle the response and update UI if needed -->
         </div>
       </div>
     </div>
