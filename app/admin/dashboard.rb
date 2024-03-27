@@ -30,4 +30,7 @@ ActiveAdmin.register_page "Dashboard" do
     #   end
     # end
   end # content
+  action_item :view_site do
+    link_to "Back to Website", root_path
+  end
 end
