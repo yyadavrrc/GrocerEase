@@ -71,4 +71,18 @@ class CartController < ApplicationController
     total_price_with_tax = total_price * (1 + tax_rates.values.sum)
     total_price_with_tax
   end
+
+  def calculate_total_price_with_tax(cart)
+    total_price = calculate_total_price(cart)
+    province = params[:province] # Retrieve province from params (assumed to be passed during checkout)
+    tax_rates = get_tax_rate_for_province(province)
+
+    gst = total_price * tax_rates[:gst]
+    pst = total_price * tax_rates[:pst].to_f
+    hst = total_price * tax_rates[:hst].to_f
+
+    total_price_with_tax = total_price + gst + pst + hst
+    { total_price_with_tax: total_price_with_tax, gst: gst, pst: pst, hst: hst }
+  end
+
 end

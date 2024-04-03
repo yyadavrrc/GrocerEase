@@ -19,25 +19,27 @@
 
   <!-- Display the invoice -->
   <h2 class="mb-3">Invoice</h2>
-  <ul class="list-group">
-    <% session[:cart].each do |product_id, quantity| %>
-      <% product = Product.find(product_id) %>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-md-6">
-            <h5 class="mb-1"><strong>Product Name:</strong> <%= product.name %></h5>
-            <p class="mb-1"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
-            <p class="mb-1"><strong>Quantity:</strong> <%= quantity %></p>
-          </div>
-        </div>
-      </li>
-    <% end %>
+<ul class="list-group">
+  <% session[:cart].each do |product_id, quantity| %>
+    <% product = Product.find(product_id) %>
     <li class="list-group-item">
-      <p><strong>Total:</strong> <%= number_to_currency(@total_price) %></p>
-      <p><strong>Tax:</strong> <%= number_to_currency(@total_price_with_tax - @total_price) %></p>
-      <p><strong>Grand Total:</strong> <%= number_to_currency(@total_price_with_tax) %></p>
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="mb-1"><strong>Product Name:</strong> <%= product.name %></h5>
+          <p class="mb-1"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+          <p class="mb-1"><strong>Quantity:</strong> <%= quantity %></p>
+        </div>
+      </div>
     </li>
-  </ul>
+  <% end %>
+  <li class="list-group-item">
+    <p><strong>Total:</strong> <%= number_to_currency(@total_price) %></p>
+    <p><strong>GST:</strong> <%= number_to_currency(@total_price_with_tax[:gst]) %></p>
+    <p><strong>PST:</strong> <%= number_to_currency(@total_price_with_tax[:pst]) %></p>
+    <p><strong>HST:</strong> <%= number_to_currency(@total_price_with_tax[:hst]) %></p>
+    <p><strong>Grand Total:</strong> <%= number_to_currency(@total_price_with_tax[:total_price_with_tax]) %></p>
+  </li>
+</ul>
 
   <!-- Back to Cart button -->
   <%= link_to "Back to Cart", view_cart_path, class: "btn btn-secondary mt-3" %>
