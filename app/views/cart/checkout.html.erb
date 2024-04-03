@@ -30,7 +30,7 @@
     </div>
     <div class="form-group">
       <%= label_tag :province, "Province" %>
-      <%= text_field_tag :province, nil, class: "form-control", placeholder: "Enter your province" %>
+      <%= select_tag :province, options_for_select(["Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan"], nil), include_blank: "Select province", class: "form-control" %>
     </div>
     <%= submit_tag "Proceed to Payment", class: "btn btn-primary" %>
   <% end %>
