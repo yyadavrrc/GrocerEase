@@ -4,7 +4,6 @@ class CartController < ApplicationController
     product_id = params[:product_id]
     session[:cart][product_id] ||= 0
     session[:cart][product_id] += 1
-    puts session[:cart]
     redirect_to view_cart_path, notice: 'Product added to cart successfully'
   end
 
@@ -29,20 +28,16 @@ class CartController < ApplicationController
     @total_price = calculate_total_price_with_tax(session[:cart])
   end
 
+  private
+
   def calculate_total_price(cart)
     total_price = 0
     cart.each do |product_id, quantity|
       product = Product.find(product_id)
       total_price += product.price * quantity
     end
-    puts total_price
     total_price
   end
-
-  private
-
-
-
 
   def calculate_total_price_with_tax(cart)
     total_price = calculate_total_price(cart)
