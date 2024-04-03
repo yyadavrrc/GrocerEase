@@ -25,7 +25,8 @@ class CartController < ApplicationController
   end
 
   def checkout
-    @total_price = calculate_total_price_with_tax(session[:cart])
+    @total_price = calculate_total_price(session[:cart])
+    @total_price_with_tax = calculate_total_price_with_tax(session[:cart])
   end
 
   private
@@ -37,14 +38,6 @@ class CartController < ApplicationController
       total_price += product.price * quantity
     end
     total_price
-  end
-
-  def calculate_total_price_with_tax(cart)
-    total_price = calculate_total_price(cart)
-    province = params[:province] # Retrieve province from params (assumed to be passed during checkout)
-    tax_rate = get_tax_rate_for_province(province)
-    total_price_with_tax = total_price * (1 + tax_rate)
-    total_price_with_tax
   end
 
   def get_tax_rate_for_province(province)
@@ -66,6 +59,16 @@ class CartController < ApplicationController
     }
 
     # Retrieve the tax rate for the selected province
-    tax_rates[province] || 0 # Return 0 if province not found in tax_rates
+    tax_rates[province] || { gst: 0, pst: 0, qst: 0 } # Return default tax rates if province not found
+  end
+
+  def calculate_total_price_with_tax(cart)
+    total_price = calculate_total_price(cart)
+    province = params[:province] # Retrieve province from params (assumed to be passed during checkout)
+    tax_rates = get_tax_rate_for_province(province)
+
+    # Calculate total price with applicable taxes
+    total_price_with_tax = total_price * (1 + tax_rates.values.sum)
+    total_price_with_tax
   end
 end
