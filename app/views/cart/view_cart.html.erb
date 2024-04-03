@@ -3,9 +3,11 @@
 
   <% if session[:cart].present? %>
     <ul class="list-group">
+      <% total_price = 0 %>
       <% session[:cart].each do |product_id, quantity| %>
+        <% product = Product.find(product_id) %>
+        <% total_price += product.price * quantity %>
         <li class="list-group-item">
-          <% product = Product.find(product_id) %>
           <div class="row">
             <div class="col-md-6">
               <h5 class="mb-1"><strong>Product Name:</strong> <%= product.name %></h5>
@@ -24,6 +26,14 @@
         </li>
       <% end %>
     </ul>
+    <div class="row mt-4">
+      <div class="col-md-12 text-right">
+        <h4>Total Price: <%= number_to_currency(total_price) %></h4>
+        <%= form_tag checkout_path, method: :post do %>
+          <%= submit_tag "Checkout", class: "btn btn-success" %>
+        <% end %>
+      </div>
+    </div>
   <% else %>
     <div class="alert alert-info" role="alert">
       Your shopping cart is empty.

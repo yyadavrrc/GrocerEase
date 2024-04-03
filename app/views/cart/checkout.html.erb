@@ -1,0 +1,21 @@
+<div class="container">
+  <h1 class="text-center mt-4 mb-4">Invoice</h1>
+
+  <ul class="list-group">
+    <% session[:cart].each do |product_id, quantity| %>
+      <% product = Product.find(product_id) %>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="mb-1"><strong>Product Name:</strong> <%= product.name %></h5>
+            <p class="mb-1"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+            <p class="mb-1"><strong>Quantity:</strong> <%= quantity %></p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <li class="list-group-item">
+      <p><strong>Total:</strong> <%= number_to_currency(@total_price) %></p>
+    </li>
+  </ul>
+</div>
