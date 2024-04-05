@@ -64,3 +64,42 @@ end
   order.save
 end
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+
+
+
+# Run this code in your Rails console
+
+# Iterate over each province and update the taxes
+Province.all.each do |province|
+  case province.name
+  when 'Alberta'
+    province.update(gst: 5, hst: 0, pst: 0)
+  when 'British Columbia'
+    province.update(gst: 5, hst: 0, pst: 7)
+  when 'Manitoba'
+    province.update(gst: 5, hst: 0, pst: 7)
+  when 'New Brunswick'
+    province.update(gst: 5, hst: 0, pst: 10)
+  when 'Newfoundland and Labrador'
+    province.update(gst: 5, hst: 0, pst: 10)
+  when 'Northwest Territories'
+    province.update(gst: 5, hst: 0, pst: 0)
+  when 'Nova Scotia'
+    province.update(gst: 5, hst: 0, pst: 10)
+  when 'Nunavut'
+    province.update(gst: 5, hst: 0, pst: 0)
+  when 'Ontario'
+    province.update(gst: 5, hst: 13, pst: 0)
+  when 'Prince Edward Island'
+    province.update(gst: 5, hst: 0, pst: 10)
+  when 'Quebec'
+    province.update(gst: 5, hst: 0, pst: 9.975)
+  when 'Saskatchewan'
+    province.update(gst: 5, hst: 0, pst: 6)
+  when 'Yukon'
+    province.update(gst: 5, hst: 0, pst: 0)
+  else
+    # Handle other provinces if needed
+  end
+end

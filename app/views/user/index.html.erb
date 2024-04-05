@@ -1,0 +1,88 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <h3 class="card-header bg-primary text-white">
+          User Information
+        </h3>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" value="<%= @user.email %>" disabled>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <% if @user.address.nil? %>
+                <input type="text" class="form-control" id="address" value="Not added yet" disabled>
+              <% else %>
+                <input type="text" class="form-control" id="address" value="<%= @user.address %>" disabled>
+              <% end %>
+            </div>
+            <div class="form-group">
+              <label for="province">Province</label>
+              <% if @user.province_id.nil? %>
+                <input type="text" class="form-control" id="province" value="Not added yet" disabled>
+              <% else %>
+                <input type="text" class="form-control" id="province" value="<%= Province.find(@user.province_id).name %>" disabled>
+              <% end %>
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
+              Edit Account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_for @user, url: update_path, method: :patch do |f| %>
+          <%= hidden_field_tag :id, @user.id %>
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :address %>
+            <%= f.text_field :address, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :province_id %>
+            <%= f.collection_select :province_id, Province.all, :id, :name, { prompt: "Select province" }, class: 'form-control' %>
+          </div>
+          <!-- Add other form fields as needed -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <%= f.submit "Save changes", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='container'>
+  <h1 class="mt-5">Orders</h1>
+
+  <% @orders.each_with_index do |order, index| %>
+    <div class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Order <%= index + 1 %></h5>
+        <p class="card-text">Email: <%= order.email %></p>
+        <p class="card-text">Address: <%= order.address %></p>
+      </div>
+    </div>
+  <% end %>
+</div>

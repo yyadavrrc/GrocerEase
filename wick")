@@ -1,0 +1,9 @@
+=> 
+[32m#<Province:0x00007f6bd17f9880[0m
+ id: [34m[1m1[0m,
+ name: [31m[1m"[0m[31mAlberta[0m[31m[1m"[0m,
+ gst: [36m[1mnil[0m,
+ hst: [36m[1mnil[0m,
+ pst: [36m[1mnil[0m,
+ created_at: Fri, 05 Apr 2024 02:38:28.421333000 UTC +00:00,
+ updated_at: Fri, 05 Apr 2024 02:38:28.421333000 UTC +00:00[32m>[0m

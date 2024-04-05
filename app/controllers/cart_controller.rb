@@ -1,4 +1,5 @@
 class CartController < ApplicationController
+  before_action :authenticate_user!
   def add_to_cart
     session[:cart] ||= {}
     product_id = params[:product_id]
@@ -25,20 +26,64 @@ class CartController < ApplicationController
   end
 
   def checkout
-    @total_price = calculate_total_price(session[:cart])
-    @total_price_with_tax = calculate_total_price_with_tax(session[:cart])
+    total_price = 0
+
+    # Calculate total price and prepare cart hash
+    session[:cart].each do |product_id, quantity|
+      product = Product.find_by(id: product_id)
+      if product
+        price = product.price
+        total_price += price * quantity
+      else
+        flash[:error] = "Product with ID #{product_id} not found."
+        redirect_to root_path and return
+      end
+    end
+
+    # Calculate taxes
+    province = Province.find_by(id: current_user.province_id)
+    if province
+      gst = total_price * (province.gst / 100)
+      pst = total_price * (province.pst / 100)
+      hst = total_price * (province.hst / 100)
+    else
+      flash[:error] = "Province not found for the current user."
+      redirect_to root_path and return
+    end
+
+    # Calculate total price including taxes
+    total_with_taxes = total_price + gst + pst + hst
+
+    # Create new order record
+    order = Order.new(
+      customer_id: current_user.id,
+      total_amount: total_with_taxes,
+    )
+
+    # Save the order
+    if order.save
+      session.delete(:cart)
+      redirect_to account_path
+    else
+      flash[:error] = "Failed to save order."
+      @error = order.total_amount
+    end
   end
+
 
   private
 
   def calculate_total_price(cart)
     total_price = 0
-    cart.each do |product_id, quantity|
-      product = Product.find(product_id)
-      total_price += product.price * quantity
+    if cart.present?
+      cart.each do |product_id, quantity|
+        product = Product.find(product_id)
+        total_price += product.price * quantity
+      end
     end
     total_price
   end
+
 
   def get_tax_rate_for_province(province)
     # Define tax rates for each province

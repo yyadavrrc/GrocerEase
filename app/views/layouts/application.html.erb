@@ -59,7 +59,10 @@
       <a class="nav-item nav-link" href="/admin">Admin</a>
       <a class="nav-item nav-link" href="/Contact">Contact</a>
       <a class="nav-item nav-link" href="/view_cart">Cart</a>
-
+      <a class="nav-item nav-link" href="/account">Account</a>
+      <% if user_signed_in? %>
+        <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'nav-item nav-link'%>
+      <% end %>
     </div>
     <form class="form-inline my-2 my-lg-0" action='/Search/result' method='get'>
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='search'>
@@ -73,7 +76,6 @@
     </form>
   </div>
 </nav>
-
   <%= yield %>
 </body>
 </html>
