@@ -55,7 +55,7 @@ class CartController < ApplicationController
     total_with_taxes = total_price + gst + pst + hst
 
     # Create new order record
-    order = Order.new(
+    order = Invoice.create(
       customer_id: current_user.id,
       total_amount: total_with_taxes,
     )
@@ -66,7 +66,7 @@ class CartController < ApplicationController
       redirect_to account_path
     else
       flash[:error] = "Failed to save order."
-      @error = order.total_amount
+      @error = flash[:error]
     end
   end
 

@@ -2,7 +2,7 @@ class UserController < ApplicationController
   before_action :authenticate_user!
   def index
     @user = User.find(current_user.id)
-    @orders = Order.where(customer_id: current_user.id)
+    @orders = Invoice.where(customer_id: current_user.id)
   end
   def sign_out
     reset_session
