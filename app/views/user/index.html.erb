@@ -62,7 +62,7 @@
             <%= f.label :province_id %>
             <%= f.collection_select :province_id, Province.all, :id, :name, { prompt: "Select province" }, class: 'form-control' %>
           </div>
-          <!-- Add other form fields as needed -->
+          <!-- Add other form field as needed -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <%= f.submit "Save changes", class: "btn btn-primary" %>
