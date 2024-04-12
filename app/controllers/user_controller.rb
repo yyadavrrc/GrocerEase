@@ -12,7 +12,7 @@ class UserController < ApplicationController
     @customer = User.find(params[:id])
 
     if @customer.update(customer_params)
-      # Update successful, handle accordingly (e.g., redirect to another e)
+      # Update successful, handle accordingly (e.g., redirect to another page)
       redirect_to '/account', notice: 'Customer information updated successfully.'
     else
       # Update failed, render the edit page again with error messages
