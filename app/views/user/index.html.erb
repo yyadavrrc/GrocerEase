@@ -62,7 +62,7 @@
             <%= f.label :province_id %>
             <%= f.collection_select :province_id, Province.all, :id, :name, { prompt: "Select province" }, class: 'form-control' %>
           </div>
-          <!-- Add other form field as needed -->
+          <!-- Add other form fields as needed -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <%= f.submit "Save changes", class: "btn btn-primary" %>
@@ -81,10 +81,27 @@
       <div class="card-body">
         <h5 class="card-title">Order <%= index + 1 %></h5>
         <% order_details = OrderDetail.where(id: order.id) %>
-        <% @order_details.each do |detail| %>
-          <p>Product ID: <%= detail.product_id %></p>
+        <div class='container'>
+
+        <% products = Info.where(order_id: order.id) %>
+        <% total_price = 0 %>
+        <% if products.any? %>
+          <% products.each do |detail| %>
+
+            <span class="card-title"><%= Product.find(detail.product_id).name%></span>
+            <span class="card-text">Price: <%= detail.unit_price * detail.quantity  %></span>
+            <span class="card-text">Quantity: <%= detail.quantity %></span>
+            <% total_price += detail.unit_price * detail.quantity %>
           <% end %>
-        <p class="card-text">Email: <%= order.total_amount %></p>
+        <% else %>
+          <p>No products found for this order.</p>
+        <% end %>
+        <p><strong>GST (<%= (Province.find(User.find(current_user.id).province_id).gst)%>%) :</strong> <%= number_to_currency(total_price * (Province.find(User.find(current_user.id).province_id).gst)/100) %></p>
+        <p><strong>PST (<%= (Province.find(User.find(current_user.id).province_id).pst)%>%):</strong> <%= number_to_currency(total_price * (Province.find(User.find(current_user.id).province_id).pst)/100) %></p>
+        <p><strong>HST (<%= (Province.find(User.find(current_user.id).province_id).hst)%>%):</strong> <%= number_to_currency(total_price * (Province.find(User.find(current_user.id).province_id).hst)/100) %></p>
+        <hr>
+        <p><strong>Total:</strong> <%= number_to_currency(total_price + (total_price * (Province.find(User.find(current_user.id).province_id).gst)/100) + (total_price * (Province.find(User.find(current_user.id).province_id).pst)/100) + (total_price * (Province.find(User.find(current_user.id).province_id).hst)/100)) %></p>
+      </div>
       </div>
     </div>
   <% end %>
