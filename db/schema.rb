@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_05_161746) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_15_205108) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -67,11 +67,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_05_161746) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "infos", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "product_id"
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.integer "customer_id"
     t.decimal "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "gst"
+    t.decimal "pst"
+    t.decimal "hst"
   end
 
   create_table "order_details", force: :cascade do |t|
@@ -83,15 +95,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_05_161746) do
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_details_on_order_id"
     t.index ["product_id"], name: "index_order_details_on_product_id"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.datetime "order_date"
-    t.decimal "total_amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -130,6 +133,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_05_161746) do
 
   add_foreign_key "order_details", "orders"
   add_foreign_key "order_details", "products"
-  add_foreign_key "orders", "customers"
   add_foreign_key "products", "categories"
 end
