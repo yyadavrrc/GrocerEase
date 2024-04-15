@@ -7,6 +7,11 @@
         </h3>
         <div class="card-body">
           <form>
+            <% if current_user.image.attached? %>
+              <%= image_tag current_user.image, class: "image" %>
+            <% else %>
+              <h1>No image added</h1>
+            <% end %>
             <div class="form-group">
               <label for="email">Email address</label>
               <input type="email" class="form-control" id="email" value="<%= @user.email %>" disabled>
@@ -58,6 +63,9 @@
             <%= f.label :address %>
             <%= f.text_field :address, class: 'form-control' %>
           </div>
+          <div>
+            <%= f.file_field :image %>
+          </div>
           <div class="form-group">
             <%= f.label :province_id %>
             <%= f.collection_select :province_id, Province.all, :id, :name, { prompt: "Select province" }, class: 'form-control' %>
@@ -80,11 +88,17 @@
     <div class="card mt-3">
       <div class="card-body">
         <h5 class="card-title">Order <%= index + 1 %></h5>
-        <% order_details = OrderDetail.where(id: order.id) %>
-        <% @order_details.each do |detail| %>
-          <p>Product ID: <%= detail.product_id %></p>
-          <% end %>
-        <p class="card-text">Email: <%= order.total_amount %></p>
+        <% order_details = Info.where(order_id: order.id) %>
+        <% order_details.each do |detail| %>
+          <span>Product ID: <%= detail.product_id %></span>
+          <span>Quantity: <%= detail.quantity %></span>
+          <span>Price: <%= detail.price * detail.quantity %></span>
+          <br>
+        <% end %>
+        <span>GST: <%= order.gst %>% </span>
+        <span>PST: <%= order.pst %>% </span>
+        <span>HST: <%= order.hst %>% </span>
+        <p class="card-text">Total: <%= order.total_amount %></p>
       </div>
     </div>
   <% end %>

@@ -47,6 +47,7 @@
                 </div>
                 <!-- Add other form fields as needed -->
             </div>
+            <%= current_user.id %>
             <div class="col-md-8 offset-md-2 text-right">
             <div class="invoice-total">
                 <p><strong>Subtotal:</strong> <%= number_to_currency(total_price) %></p>

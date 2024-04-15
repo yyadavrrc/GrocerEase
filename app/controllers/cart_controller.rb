@@ -58,10 +58,21 @@ class CartController < ApplicationController
     order = Invoice.create(
       customer_id: current_user.id,
       total_amount: total_with_taxes,
+      gst: province.gst,
+      pst: province.pst,
+      hst: province.hst,
     )
 
     # Save the order
     if order.save
+      session[:cart].each do |product_id, quantity|
+        Info.create(
+          order_id: order.id,
+          product_id: product_id,
+          quantity: quantity,
+          price: Product.find(product_id).price
+        )
+      end
       session.delete(:cart)
       redirect_to account_path
     else
